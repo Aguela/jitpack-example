@@ -1,0 +1,90 @@
+plugins {
+    id 'java'
+    id("io.github.goooler.shadow") version "8.1.8"
+}
+
+group = 'zona_fit'
+version = '1.0-SNAPSHOT'
+
+
+//define el cuerpo principal el main class
+// no se habia configurado
+
+jar {
+    manifest {
+        attributes "Main-Class": "PG.Main"
+    }
+
+    //Sirve para cambiar el archivo jar
+
+    archiveClassifier = "Programa"
+    archiveBaseName = "Hola"
+}
+
+
+repositories {
+    mavenCentral()
+
+    maven{
+        /*
+        Qué es jitpack jitpack Es como un repositorio un poco extraño normalmente los repositorios Nosotros con un plugin pues se
+         publica el código al repositorio desde nuestro proyecto de gradel jitpack funciona diferente a jitpack le pasamos un
+         repositorio de github o de gitlab o cualquier otro servicio de kit y compila el código en sus servidores y lo publica
+         como package el mismo las ventajas es gratis es sencillo de usar no presenta ningún problema no nos hemos
+         de preocupar de si el package está hosteado en un lado en otro es muy sencillo de usar básicamente
+         */
+        url 'https://jitpack.io'
+        name 'Jkitpack'
+    }
+}
+
+dependencies {
+    //indica al plugin que la queremos incluir en nuestro jar
+    shadow 'com.soundicly:jnanoid-enhanced:main-SNAPSHOT'
+
+}
+
+shadowJar {
+    //nuestro proyecto en nuestra configuracion es shadow
+    configurations = [project.configurations.shadow]
+
+    //para poder diferenciar cuál lleva solo nuestro código y cuál lleva nuestro código con encima las librerías
+
+    archiveClassifier = "shadow"
+
+    relocate "com.soundicly.jnanoidenhanced" , "org.example.libs.jnanoidenhanced"
+
+}
+
+/*
+
+//tracking de versiones
+// declarar repositorios
+repositories{
+    // repositorio principal de gradle
+    mavenCentral()
+    //añadir repositorios que no estan en mavenCentral()
+    maven{
+        url "url del repositorio"
+        name "mi repositorio"
+    }
+
+}
+//que es una dependencia
+
+es una libreria que podemos incluir en nuestro proyecto,
+para poder interactuar con ella como ejecutar codigo o instanciar
+objetos que este cpntenga
+
+dependencies {
+
+    //esta dependencia de aqui solo es necesaria para compilar el codigo
+    compileOnly ""
+
+    // esto seguido de la dependencia el cual indica
+    // que nuestro codigo depende 100% de la dependencia
+    implementation "grupo:nombre:version"
+}
+*/
+
+
